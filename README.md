@@ -1,7 +1,7 @@
 **SIMPLE SHELL**
 
 The main aim of this project is to write a simple UNIX shell.
-The whole project was made possible by both **archdaisy & Mk-0-wan**
+The whole project was made possible by both **archdaisy[[https://github.com/achdaisy]] & Mk-0-wan[[https://github.com/Mk-0-wan]]**
 Here is a list of system calls commands we have so far used.
 ***
     1. execvp() - executing shell commands passed to it
