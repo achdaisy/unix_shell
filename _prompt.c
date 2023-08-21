@@ -41,7 +41,7 @@ void _prompt(char **argv, char **environ)
 		filepath = path(buffer); /*copy over the correct path*/
 		if (!filepath)
 		{
-			printf("shell: %s command not found\n", buffer);
+			printf("%s: %s command not found\n",argv[0], buffer);
 			free(buffer);
 			continue;
 		}
