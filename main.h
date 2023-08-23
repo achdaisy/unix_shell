@@ -8,13 +8,14 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <stdarg.h>
 #include <limits.h> /*Maximum length of path*/
 
 /*custom Macros*/
 #define ARGS 5
 /*function prototypes*/
 void _prompt(char **argv, char **environ);
-char *path(char*buffer);
+char *path(char *buffer);
 int _strcmp(const char *s1, const char *s2);
 size_t _strlen(const char *s);
 char *_strdup(const char *str);
@@ -26,4 +27,6 @@ int eXit(char *buffer);
 int _check_path(char *path);
 void _exec(char *filepath, char **argv, char **environ);
 char *_getenv(char *string);
+ssize_t print_a_str(const char *buff, ...);
+int print_a_char(char a);
 #endif
