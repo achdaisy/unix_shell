@@ -7,11 +7,23 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+#include <limits.h> /*Maximum length of path*/
 
 /*custom Macros*/
 #define ARGS 5
-
 /*function prototypes*/
 void _prompt(char **argv, char **environ);
-
+char *path(char*buffer);
+int _strcmp(const char *s1, const char *s2);
+size_t _strlen(const char *s);
+char *_strdup(const char *str);
+char *_strcat(char *s, const char *ap);
+char *_strcpy(char *copy, char *original);
+int _atoi(char *s);
+int proc(void);
+int eXit(char *buffer);
+int _check_path(char *path);
+void _exec(char *filepath, char **argv, char **environ);
+char *_getenv(char *string);
 #endif
