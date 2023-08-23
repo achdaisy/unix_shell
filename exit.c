@@ -17,7 +17,8 @@ int eXit(char *buffer)
 		stat = _atoi(val2);
 		if (!_strcmp(val1, "exit"))
 		{
-			fprintf(stdout, "bye!!\n");
+			print_a_str("exited successfully\n", NULL);
+
 			exit(stat);
 			return (1);
 		}
@@ -26,7 +27,7 @@ int eXit(char *buffer)
 	{
 		if (!_strcmp(val1, "exit"))
 		{
-			fprintf(stdout, "bye!!\n");
+			print_a_str("exited successfully\n", NULL);
 			exit(EXIT_SUCCESS);
 			return (1);
 		}
