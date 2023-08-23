@@ -35,7 +35,7 @@ ssize_t print_a_str(const char *buff, ...)
 
 	while ((buff2 = va_arg(ap, const char *)) != NULL)
 	{
-		len = strlen(buff2);
+		len = _strlen(buff2);
 		written = write(1, buff2, len);
 		if (written < 0)
 		{
