@@ -1,6 +1,4 @@
 #include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
 /**
  * _prompt - displays a prompt and executes the input
  * @argv: list of arguments passed
@@ -9,24 +7,23 @@
  */
 void _prompt(char **argv, char **penviron)
 {
-	char *buffer = NULL, *delim = " ", *arg[ARGS] = {NULL};
-	char *filepath = NULL;
+	char *buffer = NULL, *buffer2 = NULL, *delim = " ", *arg[ARGS] = {NULL};
+	char *filepath;
 	size_t n = 0;
 	ssize_t chars_read; /*checks from the getline*/
 	int i;
 
 	for (;;)/*To run the infinity loop*/
 	{
-		fprintf(stdout, "shell  ");
+		print_a_str("shell  ", NULL);
 		chars_read = getline(&buffer, &n, stdin);
 		if (chars_read == -1)
 		{
-			perror("Error reading user input");
 			free(buffer);
 			exit(98);
 		}
 		buffer[_strlen(buffer) - 1] = '\0';
-		argv[0] = delim;
+		buffer2 = _strdup(buffer);
 		arg[0] = strtok(buffer, delim); /*start tokenizing string*/
 		i = 1;
 		while (i < ARGS)
@@ -34,15 +31,16 @@ void _prompt(char **argv, char **penviron)
 			arg[i] = strtok(NULL, delim); /*keep track of all the options*/
 			i++;
 		}
-		if (eXit(buffer))
+		if (eXit(buffer2))
 		{
 			free(buffer);
+			free(buffer2);
 			break; /*Exit the loop*/
 		} /*exit from the shell*/
 		filepath = path(buffer); /*copy over the correct path*/
 		if (!filepath)
 		{
-			printf("%s: %s command not found\n", argv[0], buffer);
+			print_a_str(argv[0], " : ", buffer, " command not found\n", NULL);
 			free(buffer);
 			continue;
 		}

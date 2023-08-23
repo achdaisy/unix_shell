@@ -20,7 +20,6 @@ int _check_path(char *path)
 	}
 	else
 	{
-		/*printf("shell: can't execute the command %s\n", local_path);*/
 		free(local_path);
 		return (-1);
 	}
