@@ -37,8 +37,6 @@ char *_strdup(const char *str)
 	{
 		i++;
 	}
-	/*allocate memory to the duplicate string as the previous one
-	 */
 	str_dup = malloc((i + 1) * sizeof(char));
 	if (!str_dup) /*check for failure*/
 	{
@@ -76,28 +74,60 @@ char *_strcat(char *s, const char *ap)
 	return (temp);
 }
 /**
- * _atoi - return an int value from a string
- * @str: string value passed
- * Return: the int value from a string
+ * _strcmp - compares two strings together
+ * @s1: the first string
+ * @s2: second string of chars to compare to
+ * Return: 0 successful 2 no comparison -1 fail
  */
-int _atoi(char *str)
+int _strcmp(const char *s1, const char *s2)
 {
-	int sign = 1, i = 0;
-	unsigned int result = 0;
+	unsigned int i = 0;
 
-	while (!(str[i] <= '9' && str[i] >= '0') && str[i] != '\0')
+	while ((s1[i] && s2[i]) != '\0')
 	{
-		if (str[i] == '-')
+		if (s1[i] < s2[i]) /*differ in length*/
 		{
-			sign *= -1;
+			return (-1);
+		}
+		else if (s1[i] > s2[i])
+		{
+			return (1);
 		}
 		i++;
 	}
-	while (str[i] <= '9' && (str[i] >= '0' && str[i] != '\0'))
+	if (s1[i] == '\0' && s2[i] == '\0') /*same length and char*/
 	{
-		result = (result * 10) + (str[i] - '0');
+		return (0);
+	}
+	else if (s1[i] == '\0') /*less char on s1*/
+	{
+		return (-1);
+	}
+	else /*less char on s2*/
+	{
+		return (1);
+	}
+}
+/**
+ * _strcpy - a copied string of chars
+ * @copy: pointer to the new copied string
+ * @original: pointer to the original string
+ * Return: pointer to the newly copied string
+ */
+char *_strcpy(char *copy, char *original)
+{
+	unsigned int i = 0, j = 0;
+
+	while (*(original + i) != '\0')
+	{
 		i++;
 	}
-	result *= sign;
-	return (result);
+
+	for (; j < i; j++)
+	{
+		copy[j] = original[j];
+	}
+	copy[i] = '\0';
+	return (copy);
 }
+/*EOF - check helper.c for more helper functions*/
