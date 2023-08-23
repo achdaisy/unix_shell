@@ -5,13 +5,31 @@
  * @buffer: arguments passed from the shell input
  * Return: 0 if successful
  */
-int  eXit(const char *buffer)
+int eXit(char *buffer)
 {
-	if (!strcmp(buffer, "exit"))
+	int stat;
+	char *val1, *val2;
+
+	val1 = strtok(buffer, " ");
+	val2 = strtok(NULL, " ");
+	if (val1 && val2)
 	{
-		printf("Bye!!\n");
-		exit(EXIT_SUCCESS);
-		return (1);
+		stat = _atoi(val2);
+		if (!_strcmp(val1, "exit"))
+		{
+			fprintf(stdout, "bye!!\n");
+			exit(stat);
+			return (1);
+		}
+	}
+	if (!val2)
+	{
+		if (!_strcmp(val1, "exit"))
+		{
+			fprintf(stdout, "bye!!\n");
+			exit(EXIT_SUCCESS);
+			return (1);
+		}
 	}
 	return (0);
 }
