@@ -1,4 +1,6 @@
 #include "main.h"
+#include <stdio.h>
+#include <stdlib.h>
 /**
  * _prompt - displays a prompt and executes the input
  * @argv: list of arguments passed
@@ -10,21 +12,27 @@ void _prompt(char **argv, char **penviron)
 	char *buffer = NULL, *buffer2 = NULL, *delim = " ", *arg[ARGS] = {NULL};
 	char *filepath;
 	size_t n = 0;
-	ssize_t chars_read; /*checks from the getline*/
 	int i;
 
 	for (;;)/*To run the infinity loop*/
 	{
 		print_a_str("shell  ", NULL);
-		chars_read = getline(&buffer, &n, stdin);
-		if (chars_read == -1)
+		if (getline(&buffer, &n, stdin) == -1)
 		{
-			free(buffer);
-			exit(98);
+			perror("getline failed");
 		}
 		buffer[_strlen(buffer) - 1] = '\0';
-		buffer2 = _strdup(buffer);
-		arg[0] = strtok(buffer, delim); /*start tokenizing string*/
+		if (buffer)
+		{
+			buffer2 = _strdup(buffer);
+			if (!buffer2)
+			{
+				free(buffer);
+				perror("Memory allocation failed");
+				exit(EXIT_FAILURE);
+			}
+		}
+		arg[0] = strtok(buffer, delim); /* start tokenizing string */
 		i = 1;
 		while (i < ARGS)
 		{
@@ -33,18 +41,18 @@ void _prompt(char **argv, char **penviron)
 		}
 		if (eXit(buffer2))
 		{
-			free(buffer);
 			free(buffer2);
+			free(buffer);
 			break; /*Exit the loop*/
 		} /*exit from the shell*/
-		filepath = path(buffer); /*copy over the correct path*/
+		filepath = look(buffer); /*copy over the correct path*/
 		if (!filepath)
 		{
 			print_a_str(argv[0], " : ", buffer, " command not found\n", NULL);
-			free(buffer);
 			continue;
 		}
 		_exec(filepath, arg, penviron);
+		free(filepath);
 	}
-	free(filepath);
+	free(buffer);
 }
