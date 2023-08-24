@@ -1,8 +1,5 @@
-#include <iso646.h>
 #include <linux/limits.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include "main.h"
 /**
  * path - checks for the corresponding path to the variable.
@@ -14,37 +11,45 @@ char *path(char *buffer)
 	char *path, *parsed_path = NULL, *token, *path_dup;
 	char *c_path = malloc(PATH_MAX);/* allocate memory according to Path length*/
 
+	if (!c_path)
+	{
+		perror("Memory allocation failed");
+		return (NULL);
+	}
 	path = _getenv("PATH");
 	if (!path)
 	{
 		perror("Invalid path");
-		exit(EXIT_FAILURE);
+		free(c_path);
+		return (NULL);
 	}
 	path_dup = _strdup(path);
-	if (!path_dup)
-	{
-		perror("Error while making a duplicate");
-		exit(EXIT_FAILURE);
-	}
 	token = strtok(path_dup, ":");
+	print_a_str(token, NULL);
 
 	while (token)
 	{
-		if (!c_path)
-		{
-			perror("Memory allocation failed");
-			exit(EXIT_FAILURE);
-		}
 		_strcpy(c_path, token);
 		_strcat(c_path, "/");
 		_strcat(c_path, buffer);
 		parsed_path = _strdup(c_path);
-		if (parsed_path && (_check_path(parsed_path) == 0))
+		if (!parsed_path)
 		{
+			perror("Failed");
+			free(path_dup);
+			free(c_path);
+			return (NULL);
+		}
+		if ((_check_path(parsed_path) == 0))
+		{
+			free(path_dup);
+			free(c_path);
 			return (parsed_path);
 		}
+		free(parsed_path);
 		token = strtok(NULL, ":");
 	}
 	free(path_dup);
+	free(c_path);
 	return (NULL);
 }

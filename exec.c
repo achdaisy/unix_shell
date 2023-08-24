@@ -7,14 +7,14 @@
  * @penviron: custom envrionment
  * Retrun: void
  */
-void _exec(char *filepath, char **argv, char **penviron)
+void _exec(char *filepath, char **ar, char **penviron)
 {
 	pid_t new_proc = proc();
 	int exec_return, status;
 
 	if (new_proc == 0)
 	{
-		exec_return = execve(filepath, argv, penviron);
+		exec_return = execve(filepath, ar, penviron);
 		if (exec_return == -1)
 		{
 			perror("exec_failed");
@@ -27,4 +27,5 @@ void _exec(char *filepath, char **argv, char **penviron)
 	{
 		wait(&status);
 	}
+	/*free(filepath);*/
 }

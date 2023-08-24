@@ -20,7 +20,8 @@ int _strcmp(const char *s1, const char *s2);
 size_t _strlen(const char *s);
 char *_strdup(const char *str);
 char *_strcat(char *s, const char *ap);
-char *_strcpy(char *copy, char *original);
+char *_strcpy(char *copy, const char *original);
+char *_strstr(char *haystack, char *needle);
 int _atoi(char *s);
 int proc(void);
 int eXit(char *buffer);
@@ -29,4 +30,5 @@ void _exec(char *filepath, char **argv, char **environ);
 char *_getenv(char *string);
 ssize_t print_a_str(const char *buff, ...);
 int print_a_char(char a);
+char *look(char *cmd);
 #endif

@@ -1,38 +1,54 @@
 #include "main.h"
-
 /**
  * _prompt - displays a prompt and executes the input
  * @argv: list of input parameters
  * @environ: the environment
  *
- * Return: nothing
- */
-
-void _prompt(char **argv, char **environ)
+ * Return: nothing */ void _prompt(char **argv, char **environ)
 {
-	char *buffer;
+	char *buffer, *buffer2, *filepath, *delim = " ";
 	size_t n = 0;
-	ssize_t chars_read;
-	int exec_return, status;
+	int exec_return, status, i = 0;
 	char *arg[] = {NULL, NULL};
 	pid_t new_process;
 
 	for (;;)/*To run the infinity loop*/
 	{
 		printf("cisfun$ ");
-		chars_read = getline(&buffer, &n, stdin);
-		if (chars_read == -1)
+		if (getline(&buffer, &n, stdin) == -1)
+			perror("getline failed");
+		buffer[_strlen(buffer) - 1] = '\0';
+		if (buffer)
 		{
-			perror("Error reading user input");
+			buffer2 = _strdup(buffer);
+			if (!buffer2)
+			{
+				free(buffer);
+				perror("Memory allocation failed");
+				exit(EXIT_FAILURE);
+			}
+		}
+		arg[0] = strtok(buffer, delim); /* start tokenizing string */
+		i = 1;
+		while (i < ARGS && arg[i - 1] == NULL)
+		{
+			arg[i] = strtok(NULL, delim); /*keep track of all the options*/
+			i++;
+		}
+		if (eXit(buffer2))
+		{
+			free(buffer2);
 			free(buffer);
-			exit(98);
-		}
-		if (chars_read > 0 && buffer[chars_read - 1] == '\n')
+			break; /*Exit the loop*/
+		} /*exit from the shell*/
+		filepath = look(buffer); /*copy over the correct path*/
+		if (!filepath)
 		{
-			buffer[chars_read - 1] = '\0';
+			print_a_str(argv[0], " : ", buffer, " command not found\n", NULL);
+			free(buffer2);
+			continue;
 		}
-		arg[0] = buffer;
-		new_process = fork();
+		new_process = proc();
 		if (new_process == -1)
 		{
 			perror("Error forking");
@@ -40,16 +56,20 @@ void _prompt(char **argv, char **environ)
 		}
 		if (new_process == 0)
 		{
-			exec_return = execve(arg[0], arg, environ);
+			exec_return = execve(filepath, arg, environ);
 			if (exec_return == -1)
-				printf("%s: No such file or directory\n", argv[0]);
+			{
+				printf("%s: No such file or directory\n", filepath);
+				free(filepath);
+			}
+			free(filepath);
 		}
 		else
 		{
 			wait(&status);
 		}
+		free(filepath);
+		free(buffer2);
 	}
 	free(buffer);
 }
-
-

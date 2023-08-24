@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 #include <stdlib.h>
 /**
  * eXit - simple command to exit the shell
@@ -10,26 +11,27 @@ int eXit(char *buffer)
 	int stat;
 	char *val1, *val2;
 
+	if (!buffer)
+	{
+		return (1);
+	}
 	val1 = strtok(buffer, " ");
 	val2 = strtok(NULL, " ");
 	if (val1 && val2)
 	{
 		stat = _atoi(val2);
-		if (!_strcmp(val1, "exit"))
+		if (!strcmp(val1, "exit"))
 		{
 			print_a_str("exited successfully\n", NULL);
-
 			exit(stat);
-			return (1);
 		}
 	}
-	if (!val2)
+	if (val1 && !val2)
 	{
-		if (!_strcmp(val1, "exit"))
+		if (!strcmp(val1, "exit"))
 		{
 			print_a_str("exited successfully\n", NULL);
 			exit(EXIT_SUCCESS);
-			return (1);
 		}
 	}
 	return (0);
