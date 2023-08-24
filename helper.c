@@ -55,3 +55,30 @@ char *_getenv(char *string)
 	}
 	return (NULL);
 }
+/**
+ * _strstr - returns a string of chars found in another string
+ * @haystack: string of chars we are given
+ * @needle: the string of chars we are looking for
+ * Return: 0 success
+ */
+char *_strstr(char *haystack, char *needle)
+{
+	char *l, *p;
+
+	for (; *haystack != '\0'; haystack++)
+	{
+		 l = haystack;
+		 p = needle;
+
+		while (*l == *p && *p != '\0')
+		{
+			l++;
+			p++;
+		}
+
+		if (*p == '\0')
+			return (haystack);
+	}
+
+	return (0);
+}
