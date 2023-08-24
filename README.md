@@ -11,5 +11,6 @@ Here is a list of system calls commands we have so far used.
 
 Will keep on updating the list as we add more and more mods to it.
 Our simple shell currently will be able to handle some the system or builtin commands like of `ls` small and basic stuff.
+Able to make it work with all the builtin commands and also one can now be be able to see the env variables
 
 
