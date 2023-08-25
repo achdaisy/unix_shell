@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 #include <stdio.h>
 #include <stdlib.h>
 /**
@@ -47,12 +47,13 @@ char *_strdup(const char *str)
 	{
 		str_dup[len] = str[len]; /*copy contents*/
 	}
-	str_dup[len] = '\0'; /*add null terminator*/
+	str_dup[i] = '\0'; /*add null terminator*/
 	return (str_dup);
+	free(str_dup);
 }
 /**
  * _strcat - append to a string
- * @s: pointer to what is to be appended
+ * @s: pointer to what is to be appnded
  * @ap: what is to be appeded to the newly created string
  * Return: pointer to the newly created string
  */
@@ -83,7 +84,7 @@ int _strcmp(const char *s1, const char *s2)
 {
 	unsigned int i = 0;
 
-	while ((s1[i] && s2[i]) != '\0')
+	while (s1[i] != '\0' && s2[i] != '\0')
 	{
 		if (s1[i] < s2[i]) /*differ in length*/
 		{
@@ -114,18 +115,14 @@ int _strcmp(const char *s1, const char *s2)
  * @original: pointer to the original string
  * Return: pointer to the newly copied string
  */
-char *_strcpy(char *copy, char *original)
+char *_strcpy(char *copy, const char *original)
 {
-	unsigned int i = 0, j = 0;
+	unsigned int i = 0;
 
-	while (*(original + i) != '\0')
+	while (original[i] != '\0')
 	{
+		copy[i] = original[i];
 		i++;
-	}
-
-	for (; j < i; j++)
-	{
-		copy[j] = original[j];
 	}
 	copy[i] = '\0';
 	return (copy);

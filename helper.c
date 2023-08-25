@@ -1,4 +1,4 @@
-#include "main.h"
+#include "shell.h"
 /**
  * _atoi - return an int value from a string
  * @str: string value passed
@@ -55,30 +55,49 @@ char *_getenv(char *string)
 	}
 	return (NULL);
 }
+
 /**
- * _strstr - returns a string of chars found in another string
- * @haystack: string of chars we are given
- * @needle: the string of chars we are looking for
- * Return: 0 success
+ * _putchar - prints a single character to standard output
+ * @a: character to be printed.
+ * Return: 1 else -1
  */
-char *_strstr(char *haystack, char *needle)
+int _putchar(char a)
 {
-	char *l, *p;
+	return (write(1, &a, 1));
+}
 
-	for (; *haystack != '\0'; haystack++)
+/**
+ * print - prints chars to standard output
+ * @buff: first argument in the list.
+ * Return: 1
+ */
+
+ssize_t print(const char *buff, ...)
+{
+	va_list ap;
+	const char *buff2;
+	ssize_t total_written = 0, written;
+	size_t len;
+
+	va_start(ap, buff);
+	len = _strlen(buff);
+	written = write(1, buff, len);
+	if (written < 0)
 	{
-		 l = haystack;
-		 p = needle;
-
-		while (*l == *p && *p != '\0')
-		{
-			l++;
-			p++;
-		}
-
-		if (*p == '\0')
-			return (haystack);
+		return (-1);
 	}
+	total_written += written;
 
-	return (0);
+	while ((buff2 = va_arg(ap, const char *)) != NULL)
+	{
+		len = _strlen(buff2);
+		written = write(1, buff2, len);
+		if (written < 0)
+		{
+			return (-1);
+		}
+		total_written += written;
+	}
+	va_end(ap);
+	return (total_written);
 }

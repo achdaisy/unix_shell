@@ -1,28 +1,46 @@
-#include "main.h"
-#include <stdlib.h>
-
+#include "shell.h"
 /**
- * look - will check for path present if not will move to the next one
- * @cmd: the command passed
- * Return: an executable file
+ * look - solve all the issues of user input
+ * @cmd: list of arguments passed
+ * Return: void
  */
-char *look(char *cmd)
+void look(char *cmd)
 {
-	static char *filepath;
-	char *found = _strstr(cmd, "/bin/");
+	int rt; /* which type of command was passed */
+	shell xcmd; /* copy of the struct */
 
-	if (found)
+
+	rt = parser(cmd, &xcmd); /* handle path and argument passed */
+	if (rt == -1)
+		return; /* parser failed */
+
+	if (xcmd.argv[0] == NULL)
+		return; /* check if no arguments passed */
+	if (xcmd.builtin == NONE)
 	{
-		if (_check_path(found) == 0)
-		{
-			print_a_str(found, "\n", NULL);
-			return (found);
-		}
-		exit(EXIT_FAILURE);
+		Exec(&xcmd, cmd);
 	}
+	/* if builtin is equal to NONE a normal command */
 	else
+		Exit(cmd);
+		/* runCheckcommand(&xcmd, cmd); */
+}
+/* avoid this at the moment */
+/**
+ * runCheckcommand - checks for all the invalid commands
+ * @cmdline: pointer to the struct
+ * @command: command passed values
+ * Return: void
+ */
+void runCheckcommand(shell *cmdline, char *command)
+{
+	switch (cmdline->builtin)
 	{
-		filepath = path(cmd);
-		return (filepath);
+		case EXIT:
+			Exit(command);
+			break;
+		default:
+			perror("Unknown command\n");
+			break;
 	}
 }

@@ -1,31 +1,28 @@
-#include "main.h"
-#include <signal.h>
+#include "shell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 /**
- * _exec - will make a command execution
- * @filepath: correct file path of the executable file
- * @argv: command line arguments
- * @penviron: custom envrionment
+ * Exec - will make a command execution
+ * @cmd: custom struct
+ * @buf: command passed
  * Retrun: void
  */
-void _exec(char *filepath, char **ar, char **penviron)
+void Exec(shell *cmd, char *buf)
 {
-	pid_t new_proc = proc();
-	int exec_return, status;
+	pid_t proc = fork();
+	int status;
 
-	if (new_proc == 0)
+	if (proc == 0)
 	{
-		exec_return = execve(filepath, ar, penviron);
-		if (exec_return == -1)
+		if (execvp(cmd->argv[0], cmd->argv) < 0)
 		{
-			perror("exec_failed");
-			free(filepath);
+			print(cmd->argv[0], "Command not found\n", NULL);
+			free(buf);
 			exit(EXIT_FAILURE);
 		}
-		free(filepath);
 	}
 	else
-	{
 		wait(&status);
-	}
-	/*free(filepath);*/
 }

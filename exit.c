@@ -1,38 +1,36 @@
-#include "main.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "shell.h"
 /**
- * eXit - simple command to exit the shell
- * @buffer: arguments passed from the shell input
- * Return: 0 if successful
+ * Exit - exits the shell
+ * @buffer: pointer to a sturct
+ * Return: an arguments passed or 0 for success
  */
-int eXit(char *buffer)
+int Exit(char *buffer)
 {
 	int stat;
 	char *val1, *val2;
 
 	if (!buffer)
-	{
-		return (1);
-	}
-	val1 = strtok(buffer, " ");
-	val2 = strtok(NULL, " ");
+		perror("error making a copy");
+	val1 = _strtok(buffer, " ");
+	val2 = _strtok(NULL, " ");
 	if (val1 && val2)
 	{
 		stat = _atoi(val2);
-		if (!strcmp(val1, "exit"))
+		if (!_strcmp(val1, "exit"))
 		{
-			print_a_str("exited successfully\n", NULL);
+			print("Exited successfully\n", NULL);
+			free(buffer); /* which was allocated by getline */
 			exit(stat);
 		}
 	}
 	if (val1 && !val2)
 	{
-		if (!strcmp(val1, "exit"))
+		if (!_strcmp(val1, "exit"))
 		{
-			print_a_str("exited successfully\n", NULL);
+			print("Exited successfully\n", NULL);
+			free(buffer); /* which was allocated by getline */
 			exit(EXIT_SUCCESS);
 		}
 	}
-	return (0);
+	return (-1);
 }

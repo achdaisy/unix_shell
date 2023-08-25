@@ -14,8 +14,9 @@
 /*custom Macros*/
 #define ARGS 5
 /*function prototypes*/
-void _prompt(char **argv, char **environ);
+/*void _prompt(char **argv, char **environ);*/
 char *path(char *buffer);
+void _prompt(void);
 int _strcmp(const char *s1, const char *s2);
 size_t _strlen(const char *s);
 char *_strdup(const char *str);
