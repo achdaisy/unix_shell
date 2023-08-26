@@ -19,13 +19,15 @@ int main(int argc, char **argv) /* leave space for the env */
 
 	while (1)
 	{
-		print("xshell$ ", NULL);
+		if (isatty(STDIN_FILENO))
+			print("xshell$ ", NULL);
 		while (getline(&line, &len, stdin) != -1)
 		{
 			line[_strcspn(line, "\n")] = '\0';
-			printf("%s\n", line);
+			/*printf("%s\n", line);*/
 			look(line);
 			print("xshell$ ", NULL);
+			continue;
 		}
 		if (getline(&line, &len, stdin) == -1)
 			exit(0);
