@@ -18,7 +18,7 @@ int Exit(char *buffer)
 		stat = _atoi(val2);
 		if (!_strcmp(val1, "exit"))
 		{
-			print("Exited successfully\n", NULL);
+			/*print("Exited successfully\n", NULL);*/
 			free(buffer); /* which was allocated by getline */
 			exit(stat);
 		}
