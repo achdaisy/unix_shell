@@ -10,7 +10,6 @@ char *_strtok(char *str, char *delim)
 	static char *last_token;
 	char *token;
 
-	last_token = NULL;
 	if (str == NULL && last_token == NULL)
 		/* reached the end */
 		return (NULL);
@@ -25,10 +24,7 @@ char *_strtok(char *str, char *delim)
 		return (NULL);
 	}
 	token = str + _strcspn(str, delim); /* update the token */
-	if (*token != '\0')
-	{
-	    *token++ = '\0'; /* make it point there */
-	} /* while token copy doesn't point to a null terminator */
+	*token++ = '\0'; /* make it point to a null terminator */
 	last_token = token;  /* update the last token */
 	return (str);
 }
