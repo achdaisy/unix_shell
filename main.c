@@ -19,18 +19,32 @@ int main(int argc, char **argv) /* leave space for the env */
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
-			print("xshell$ ", NULL);
+		print("($) ", NULL);
 		while (getline(&line, &len, stdin) != -1)
 		{
-			line[_strcspn(line, "\n")] = '\0';
-			/*printf("%s\n", line);*/
-			look(line);
-			print("xshell$ ", NULL);
-			continue;
+			if (isatty(STDIN_FILENO))
+			{/* start interactive mode */
+				line[_strcspn(line, "\n")] = '\0';
+				look(line);
+				print("($) ", NULL);
+				continue;
+			}
+			else
+			{/* start non-interactive mode */
+				line[_strcspn(line, "\n")] = '\0';
+				print(line, "\n", NULL);
+				if (access(line, F_OK | X_OK) == 0)
+					look(line);
+				else
+					continue;
+			}
+			break;
 		}
 		if (getline(&line, &len, stdin) == -1)
-			exit(0);
+		{/* both fail exit */
+			free(line);
+			exit(EXIT_SUCCESS);
+		}
 	}
 	free(line);
 	return (0);
