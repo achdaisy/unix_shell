@@ -18,7 +18,7 @@ void Exec(shell *cmd, char *buf)
 	{
 		if (execvp(cmd->argv[0], cmd->argv) < 0)
 		{
-			print(cmd->argv[0], "Command not found\n", NULL);
+			print(cmd->argv[0], "Command not found\n", DKWHT, NULL);
 			free(buf);
 			exit(EXIT_FAILURE);
 		}

@@ -15,6 +15,22 @@
 
 /* Define Macros */
 #define MAXARGS 100
+/*light colors*/
+#define DKRED "\x1B[1;31m"
+#define DKGRN "\x1B[1;32m"
+#define DKYEL "\x1B[1;33m"
+#define DKBLU "\x1B[1;34m"
+#define DKMAG "\x1B[1;35m"
+#define DKCYN "\x1B[1;36m"
+#define DKWHT "\x1B[1;37m"
+/*Dark colors*/
+#define BRRED "\x1B[0;31m"
+#define BRGRN "\x1B[0;32m"
+#define BRYEL "\x1B[0;33m"
+#define BRBLU "\x1B[0;34m"
+#define BRMAG "\x1B[0;35m"
+#define BRCYN "\x1B[0;36m"
+#define BRWHT "\x1B[0;37m"
 
 /* Struct */
 typedef struct command
@@ -35,13 +51,13 @@ void *MALLOC_CHECK(void *ptr); /* check for malloc allocation */
 int parser(char *buf, shell *cmdline);
 int Exit(char *cmd); /* responsible for exit command */
 void runCheckcommand(shell *cmdline, char *);
-/*enum builtin_val parseBuiltin(shell *cmdline);*/
 
 /* Strings functions */
 size_t _strlen(const char *s);
 char *_strdup(const char *str);
 int _strcmp(const char *s1, const char *s2);
 char *_strcpy(char *copy, const char *original);
+
 int _atoi(char *str);
 int _putchar(char x);
 ssize_t print(const char *buf, ...);

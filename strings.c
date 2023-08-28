@@ -37,12 +37,7 @@ char *_strdup(const char *str)
 	{
 		i++;
 	}
-	str_dup = malloc((i + 1) * sizeof(char));
-	if (!str_dup) /*check for failure*/
-	{
-		perror("Whops!! Memory allocation failed");
-		exit(EXIT_FAILURE);
-	}
+	str_dup = MALLOC_CHECK(malloc((i + 1) * sizeof(char)));
 	for (; len < i; len++)
 	{
 		str_dup[len] = str[len]; /*copy contents*/
